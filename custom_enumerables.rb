@@ -11,4 +11,14 @@ module Enumerable
     end
     self
   end
+
+  def my_each_with_index
+    times = length
+    index = 0
+    times.times do
+      yield(self[index], index)
+      index += 1
+    end
+    self
+  end
 end
