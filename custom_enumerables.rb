@@ -6,7 +6,7 @@ module Enumerable
     times = length
     index = 0
     times.times do
-      yield(self[index])
+      instance_of?(Array) ? yield(self[index]) : yield(keys[index], values[index])
       index += 1
     end
     self
