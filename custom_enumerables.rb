@@ -36,7 +36,11 @@ module Enumerable
   end
 
   def my_all?(&condition)
-    truthies = my_select { |item| condition.call(item) }
+    truthies = if instance_of?(Array)
+                 my_select { |item| condition.call(item) }
+               else
+                 my_select { |_key, value| condition.call(value) }
+               end
     truthies.length == length
   end
 end
