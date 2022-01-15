@@ -36,11 +36,27 @@ module Enumerable
   end
 
   def my_all?(&condition)
-    truthies = if instance_of?(Array)
-                 my_select { |item| condition.call(item) }
-               else
-                 my_select { |_key, value| condition.call(value) }
-               end
+    truthies = instance_of?(Array) ? my_select { |item| condition.call(item) } : my_select { |key, value| condition.call(key, value) }
     truthies.length == length
+  end
+
+  def my_any?(&condition)
+    truthies = instance_of?(Array) ? my_select { |item| condition.call(item) } : my_select { |key, value| condition.call(key, value) }
+    truthies.length.positive?
+  end
+
+  def my_none?(&condition)
+    truthies = instance_of?(Array) ? my_select { |item| condition.call(item) } : my_select { |key, value| condition.call(key, value) }
+    truthies.length.zero?
+  end
+
+  def my_count(*args, &condition)
+    if block_given?
+      instance_of?(Array) ? my_select { |item| condition.call(item) }.length : my_select { |key, value| condition.call(key, value) }.length
+    elsif args.length == 1
+      instance_of?(Array) ? my_select { |item| item == args[0] }.length : my_select { |_key, value| value == args[0] }.length
+    else
+      length
+    end
   end
 end
