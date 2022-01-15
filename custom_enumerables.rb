@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 # The same built-in Enumerable module with added methods
 module Enumerable
   def my_each
